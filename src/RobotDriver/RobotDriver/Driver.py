@@ -34,15 +34,16 @@ def main(args=None):
     node = rclpy.create_node('myNode')
     
     pub = node.create_publisher(Twist, 'cmd_vel',10)
-    twist = Twist()
-    twist.linear.x = 5.0
-    twist.linear.y = 0.0
-    twist.linear.z = 0.0
-    twist.angular.x = 0.0
-    twist.angular.y = 0.0
-    twist.angular.z = 5.0
-    print("Hello World!")
-    pub.publish(twist)
+    while(1):
+        twist = Twist()
+        twist.linear.x = 5.0
+        twist.linear.y = 0.0
+        twist.linear.z = 0.0
+        twist.angular.x = 0.0
+        twist.angular.y = 0.0
+        twist.angular.z = 5.0
+        print("Hello World!")
+        pub.publish(twist)
 
 if __name__ == '__main__':
     main()
