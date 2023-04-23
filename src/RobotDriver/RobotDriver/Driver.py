@@ -35,12 +35,12 @@ def main(args=None):
     
     pub = node.create_publisher(Twist, 'cmd_vel',10)
     twist = Twist()
-    twist.linear.x = 100.0
+    twist.linear.x = 5.0
     twist.linear.y = 0.0
     twist.linear.z = 0.0
     twist.angular.x = 0.0
     twist.angular.y = 0.0
-    twist.angular.z = 0.0
+    twist.angular.z = 5.0
     print("Hello World!")
     pub.publish(twist)
 
