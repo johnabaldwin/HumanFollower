@@ -41,6 +41,7 @@ def main(args=None):
     twist.angular.x = 0.0
     twist.angular.y = 0.0
     twist.angular.z = 0.0
+    print("Hello World!")
     pub.publish(twist)
 
 if __name__ == '__main__':
