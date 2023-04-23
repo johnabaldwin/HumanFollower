@@ -33,7 +33,7 @@ def main(args=None):
     rclpy.init(args=args)
     node = rclpy.create_node('myNode')
     
-    pub = node.create_publisher(Twist, 'cmd_vel',0)
+    pub = node.create_publisher(Twist, 'cmd_vel',10)
     twist = Twist()
     twist.linear.x = 100.0
     twist.linear.y = 0.0
