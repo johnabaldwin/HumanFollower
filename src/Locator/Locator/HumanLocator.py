@@ -71,6 +71,7 @@ class HumanLocator(Node):
             image_msg = self.bridge_.cv2_to_imgmsg(color_frame, encoding='bgr8')
             
             # publish location and visualization
+            print("XYZ = " + str(blob.spatialCoordinates.x) + " " + str(blob.spatialCoordinates.y) + " " + str(blob.spatialCoordinates.z))
             self.LocationPublisher_.publish(location_msg)
             self.DepthImagePublisher_.pubish(image_msg)
             
