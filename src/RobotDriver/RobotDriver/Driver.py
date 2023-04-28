@@ -25,8 +25,7 @@ class Driver(Node):
         self.publisher.publish(self.base_cmd)
     
     def callback(self):
-        while(1):
-            self.update(5,5)
+        self.update(5.0,5.0)
 
 
 
