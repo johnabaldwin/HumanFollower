@@ -18,9 +18,10 @@ import numpy as np
 
 #Publisher class for 3 tuple of blob X Y Z coordinates
 class LocationMsg(Float32MultiArray):
-    def __init__(self, x, y, z):
+    def __init__(self, x_c, y_c, z):
         super().__init__()
-        self.data = [x, y, z]
+        self.data = [x_c, y_c, z]
+        
 
 class HumanLocator(Node):
 
@@ -98,21 +99,29 @@ class HumanLocator(Node):
                 # ALL VALUES WE NEED ARE BELOW
                 z = detection.spatialCoordinates.z / 1000
                 label = detection.label
+                
                 x1 = int(detection.xmin * width)
-                print(x1)
+                #print(x1)
                 x2 = int(detection.xmax * width)
-                print(x2)
+                #print(x2)
                 y1 = int(detection.ymin * height)
-                print(y1)
+                #print(y1)
                 y2 = int(detection.ymax * height)
-                print(y2)
+                #print(y2)
                 # print(int(detection.spatialCoordinates.z) / 1000)
-                print("m")
+                #print("m")
                 # print(roi.topLeft().x)
                 # print(roi.topLeft().y)
                 # print()
                 # print(detection.label)
                 print("\n")
+                
+                if(label == 15): #Human
+                    x_c =  x1 + (x2 - x1)/2
+                    y_c =  y1 + (y2 - y1)/2
+                    msg = LocationMsg(x_c,y_c,z)
+                    print(msg.data[0])
+                    self.LocationPublisher_.publish(msg)
             #cv2.rectangle(rectifiedRight, (x1, y1), (x2, y2), (255,0,0), cv2.FONT_HERSHEY_SIMPLEX)
 
             #cv2.imshow("rectified right", rectifiedRight)
@@ -123,10 +132,7 @@ class HumanLocator(Node):
             rectifiedRight = 0
             print("No data\n")
 
-        
-        
-        print(height)
-        print(width)
+
 
     
 
