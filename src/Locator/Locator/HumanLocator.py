@@ -84,53 +84,45 @@ class HumanLocator(Node):
 
     def timer_callback(self):
         # get all detected blobs
-        try: 
-            inDet = self.q.get()
-            inRect = self.rectout.get()
-            rectifiedRight = inRect.getCvFrame()
-            height = rectifiedRight.shape[0]
-            width = rectifiedRight.shape[1]
-            detections = inDet.detections
-
-            for detection in detections:
-                roiData = detection.boundingBoxMapping
-                roi = roiData.roi
-                # These values are in mm
-                # ALL VALUES WE NEED ARE BELOW
-                z = detection.spatialCoordinates.z / 1000
-                label = detection.label
-                
-                x1 = int(detection.xmin * width)
-                #print(x1)
-                x2 = int(detection.xmax * width)
-                #print(x2)
-                y1 = int(detection.ymin * height)
-                #print(y1)
-                y2 = int(detection.ymax * height)
-                #print(y2)
-                # print(int(detection.spatialCoordinates.z) / 1000)
-                #print("m")
-                # print(roi.topLeft().x)
-                # print(roi.topLeft().y)
-                # print()
-                # print(detection.label)
-                print("\n")
-                
-                if(label == 15): #Human
-                    x_c =  x1 + (x2 - x1)/2
-                    y_c =  y1 + (y2 - y1)/2
-                    msg = LocationMsg(x_c,y_c,z)
-                    print(msg.data[0])
-                    self.LocationPublisher_.publish(msg)
-            #cv2.rectangle(rectifiedRight, (x1, y1), (x2, y2), (255,0,0), cv2.FONT_HERSHEY_SIMPLEX)
-
-            #cv2.imshow("rectified right", rectifiedRight)
-        except:
-            self.oak_camera_.poll()
-            height = 0
-            width = 0
-            rectifiedRight = 0
-            print("No data\n")
+        inDet = self.q.get()
+        inRect = self.rectout.get()
+        rectifiedRight = inRect.getCvFrame()
+        height = rectifiedRight.shape[0]
+        width = rectifiedRight.shape[1]
+        detections = inDet.detections
+        for detection in detections:
+            roiData = detection.boundingBoxMapping
+            roi = roiData.roi
+            # These values are in mm
+            # ALL VALUES WE NEED ARE BELOW
+            z = detection.spatialCoordinates.z / 1000
+            label = detection.label
+            print(label)
+            x1 = int(detection.xmin * width)
+            print(x1)
+            x2 = int(detection.xmax * width)
+            print(x2)
+            y1 = int(detection.ymin * height)
+            print(y1)
+            y2 = int(detection.ymax * height)
+            #print(y2)
+            # print(int(detection.spatialCoordinates.z) / 1000)
+            #print("m")
+            # print(roi.topLeft().x)
+            # print(roi.topLeft().y)
+            # print()
+            # print(detection.label)
+            print("\n")
+            
+            if(label == 15): #Human
+                x_c =  np.float32(x1 + (x2 - x1)/2)
+                y_c = np.float32(y1 + (y2 - y1)/2)
+                z = np.float32(z)
+                msg = LocationMsg(x_c,y_c,z)
+                print(msg.data[0])
+                self.LocationPublisher_.publish(msg)
+        #cv2.rectangle(rectifiedRight, (x1, y1), (x2, y2), (255,0,0), cv2.FONT_HERSHEY_SIMPLEX)
+        #cv2.imshow("rectified right", rectifiedRight)
 
 
 
