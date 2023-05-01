@@ -4,6 +4,7 @@ from rclpy.node import Node
 from sensor_msgs.msg import Image
 from std_msgs.msg import Float32MultiArray
 from geometry_msgs.msg import Point
+from turtlebot4_interfaces.msg import BBCoordinates
 from depthai import NNData
 import depthai as dai
 
@@ -34,6 +35,7 @@ class HumanLocator(Node):
 
 
         self.LocationPublisher_ = self.create_publisher(Point, "/humanLocation", 10)
+        self.BBPublisher_ = self.create_publisher(BBCoordinates, "/BBCoordinates", 10)
         self.DepthImagePublisher_ = self.create_publisher(Image, "/DepthImage", 10)
         self.timer = self.create_timer(self.timer_period, self.timer_callback)
         #initialize Oak Camera, cannot use stereo mode with neural network blob detector
@@ -91,6 +93,11 @@ class HumanLocator(Node):
         height = rectifiedRight.shape[0]
         width = rectifiedRight.shape[1]
         detections = inDet.detections
+
+        minDist = 1000
+        pointMsg = Point()
+        bbMsg = BBCoordinates()
+
         for detection in detections:
             roiData = detection.boundingBoxMapping
             roi = roiData.roi
@@ -115,16 +122,23 @@ class HumanLocator(Node):
             # print(detection.label)
             print("\n")
             
-            if(label == 15): #Human
+            if(label == 15 && z < minDist): #Human
                 x_c =  x1 + (x2 - x1)/2
                 y_c = y1 + (y2 - y1)/2
                 z = z
-                msg = Point()
-                msg.x = x_c
-                msg.y = y_c
-                msg.z = z
-                print(msg.x)
-                self.LocationPublisher_.publish(msg)
+                pointMsg.x = x_c
+                pointMsg.y = y_c
+                pointMsg.z = z
+
+                bbMsg.x = x1
+                bbMsg.y = y1
+                bbMsg.w = x2 - x1
+                bbMsg.h = y2 - y1
+                print(pointMsg.x)
+                print(bbMsg.x)
+
+        self.LocationPublisher_.publish(pointMsg)
+        self.BBPublisher_.publish(bbMsg)
         #cv2.rectangle(rectifiedRight, (x1, y1), (x2, y2), (255,0,0), cv2.FONT_HERSHEY_SIMPLEX)
         #cv2.imshow("rectified right", rectifiedRight)
 
