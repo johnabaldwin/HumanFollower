@@ -91,13 +91,13 @@ class HumanLocator(Node):
         pointMsg = Point()
         bbMsg = BBCoordinates()
 
-        pointMsg.x = None
-        pointMsg.y = None
-        pointMsg.z = None
-        bbMsg.x = None
-        bbMsg.y = None
-        bbMsg.w = None
-        bbMsg.h = None
+        pointMsg.x = 0.0
+        pointMsg.y = 0.0
+        pointMsg.z = 0.0
+        bbMsg.x = 0
+        bbMsg.y = 0
+        bbMsg.w = 0
+        bbMsg.h = 0
 
         for detection in detections:
             roiData = detection.boundingBoxMapping
@@ -137,7 +137,7 @@ class HumanLocator(Node):
                 bbMsg.h = y2 - y1
                 print(pointMsg.x)
                 print(bbMsg.x)
-        if (not pointMsg.x == None):
+        if (not pointMsg.x == 0.0):
             self.LocationPublisher_.publish(pointMsg)
             self.BBPublisher_.publish(bbMsg)
         #cv2.rectangle(rectifiedRight, (x1, y1), (x2, y2), (255,0,0), cv2.FONT_HERSHEY_SIMPLEX)
