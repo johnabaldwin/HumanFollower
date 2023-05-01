@@ -3,6 +3,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 from std_msgs.msg import Float32MultiArray
+from geometry_msgs.msg import Point
 from depthai import NNData
 import depthai as dai
 
@@ -32,7 +33,7 @@ class HumanLocator(Node):
         self.camera_fps = self.timer_period**(-1) # set camera fps to the number of callbacks per second
 
 
-        self.LocationPublisher_ = self.create_publisher(LocationMsg, "/humanLocation", 10)
+        self.LocationPublisher_ = self.create_publisher(Point, "/humanLocation", 10)
         self.DepthImagePublisher_ = self.create_publisher(Image, "/DepthImage", 10)
         self.timer = self.create_timer(self.timer_period, self.timer_callback)
         #initialize Oak Camera, cannot use stereo mode with neural network blob detector
@@ -115,11 +116,14 @@ class HumanLocator(Node):
             print("\n")
             
             if(label == 15): #Human
-                x_c =  np.float32(x1 + (x2 - x1)/2)
-                y_c = np.float32(y1 + (y2 - y1)/2)
-                z = np.float32(z)
-                msg = LocationMsg(x_c,y_c,z)
-                print(msg.data[0])
+                x_c =  x1 + (x2 - x1)/2
+                y_c = y1 + (y2 - y1)/2
+                z = z
+                msg = Point()
+                msg.x = x_c
+                msg.y = y_c
+                msg.z = z
+                print(msg.x)
                 self.LocationPublisher_.publish(msg)
         #cv2.rectangle(rectifiedRight, (x1, y1), (x2, y2), (255,0,0), cv2.FONT_HERSHEY_SIMPLEX)
         #cv2.imshow("rectified right", rectifiedRight)
