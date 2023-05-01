@@ -115,7 +115,7 @@ class HumanLocator(Node):
             # print(detection.label)
             print("\n")
             
-            if(label == 15 && z < minDist): #Human
+            if(label == 15 and z < minDist): #Human
                 x_c =  x1 + (x2 - x1)/2
                 y_c = y1 + (y2 - y1)/2
                 z = z
