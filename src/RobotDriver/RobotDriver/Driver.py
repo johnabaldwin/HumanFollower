@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
-from sensor_msgs.msg import Float32
+from geometry_msgs.msg import Point
 from std_msgs.msg import String
 from cv_bridge import CvBridge
 
@@ -34,7 +34,7 @@ class Driver(Node):
         self.publisher_ = self.create_publisher(Twist, 'cmd_vel', 10)
         # timer_period = 0.5  # seconds
         # self.timer = self.create_timer(timer_period, self.callback)
-        self.location_subscriber_ = self.create_subscription(Float32, "/humanLocation", self.callback, 10)
+        self.location_subscriber_ = self.create_subscription(Point, "/humanLocation", self.callback, 10)
         self.base_cmd = Twist()
 
         # ideal distance from target
@@ -62,9 +62,9 @@ class Driver(Node):
     def callback(self, msg):
         # Kalman filtering done here?
 
-        x_c = msg.data[0]
-        y_c = msg.data[1]
-        z = msg.data[2]
+        x_c = msg.x
+        y_c = msg.y
+        z = msg.z
 
         offset_x = x_c - self.imgW / 2
         theta = offset_x / self.imgW
