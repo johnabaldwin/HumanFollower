@@ -18,13 +18,6 @@ from cv_bridge import CvBridge
 
 import numpy as np
 
-#Publisher class for 3 tuple of blob X Y Z coordinates
-class LocationMsg(Float32MultiArray):
-    def __init__(self, x_c, y_c, z):
-        super().__init__()
-        self.data = [x_c, y_c, z]
-        
-
 class HumanLocator(Node):
 
     def __init__(self):
@@ -105,13 +98,13 @@ class HumanLocator(Node):
             # ALL VALUES WE NEED ARE BELOW
             z = detection.spatialCoordinates.z / 1000
             label = detection.label
-            print(label)
+            #print(label)
             x1 = int(detection.xmin * width)
-            print(x1)
+            #print(x1)
             x2 = int(detection.xmax * width)
-            print(x2)
+            #print(x2)
             y1 = int(detection.ymin * height)
-            print(y1)
+            #print(y1)
             y2 = int(detection.ymax * height)
             #print(y2)
             # print(int(detection.spatialCoordinates.z) / 1000)
