@@ -1,4 +1,4 @@
-float32 x
-float32 y
-float32 w
-float32 h
+int64 x
+int64 y
+int64 w
+int64 h

@@ -98,6 +98,14 @@ class HumanLocator(Node):
         pointMsg = Point()
         bbMsg = BBCoordinates()
 
+        pointMsg.x = None
+        pointMsg.y = None
+        pointMsg.z = None
+        bbMsg.x = None
+        bbMsg.y = None
+        bbMsg.w = None
+        bbMsg.h = None
+
         for detection in detections:
             roiData = detection.boundingBoxMapping
             roi = roiData.roi
@@ -122,7 +130,7 @@ class HumanLocator(Node):
             # print(detection.label)
             print("\n")
             
-            if(label == 15 && z < minDist): #Human
+            if(label == 15 and z < minDist): #Human
                 x_c =  x1 + (x2 - x1)/2
                 y_c = y1 + (y2 - y1)/2
                 z = z
@@ -136,9 +144,9 @@ class HumanLocator(Node):
                 bbMsg.h = y2 - y1
                 print(pointMsg.x)
                 print(bbMsg.x)
-
-        self.LocationPublisher_.publish(pointMsg)
-        self.BBPublisher_.publish(bbMsg)
+        if (not pointMsg.x == None):
+            self.LocationPublisher_.publish(pointMsg)
+            self.BBPublisher_.publish(bbMsg)
         #cv2.rectangle(rectifiedRight, (x1, y1), (x2, y2), (255,0,0), cv2.FONT_HERSHEY_SIMPLEX)
         #cv2.imshow("rectified right", rectifiedRight)
 
