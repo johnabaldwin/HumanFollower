@@ -135,6 +135,7 @@ class HumanLocator(Node):
                 bbMsg.y = y1
                 bbMsg.w = x2 - x1
                 bbMsg.h = y2 - y1
+                bbMsg.z = z
                 print(pointMsg.x)
                 print(bbMsg.x)
         if (not pointMsg.x == None):
