@@ -15,7 +15,6 @@ from depthai_sdk.classes import Detections, SpatialBbMappingPacket
 #OpenCV Imports
 import cv2
 from cv_bridge import CvBridge
-
 import numpy as np
 
 class HumanLocator(Node):
