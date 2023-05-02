@@ -38,7 +38,7 @@ class Driver(Node):
         self.base_cmd = Twist()
 
         # ideal distance from target
-        self.target_distance = 2
+        self.target_distance = 1
 
         # distance controller PID
         self.z_pid = PIDController(5, 1, 1)
@@ -57,7 +57,13 @@ class Driver(Node):
     def update(self, linear_x, angular_z):
         self.base_cmd.linear.x = linear_x
         self.base_cmd.angular.z = angular_z
-        self.publisher.publish(self.base_cmd)
+        print("Linear X: ")
+        print(linear_x)
+        print("\n")
+        print("Angular Z: ")
+        print(angular_z)
+        print("\n")
+        self.publisher_.publish(self.base_cmd)
 
     def callback(self, msg):
         # Kalman filtering done here?
@@ -71,9 +77,15 @@ class Driver(Node):
 
         z_error = self.target_distance - z
 
-        angular = -2.0 * theta
+        angular = -2.5 * theta
         linear = self.z_pid.update(z_error)
 
+        if(z <= 0.5):
+            linear = 0.0
+            angular = 180.0
+        else:
+            linear = z - self.target_distance
+        
         self.update(linear, angular)
 
 
