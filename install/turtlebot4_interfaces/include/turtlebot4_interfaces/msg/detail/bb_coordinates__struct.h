@@ -20,10 +20,11 @@ extern "C"
 // Struct defined in msg/BBCoordinates in the package turtlebot4_interfaces.
 typedef struct turtlebot4_interfaces__msg__BBCoordinates
 {
-  float x;
-  float y;
-  float w;
-  float h;
+  int64_t x;
+  int64_t y;
+  int64_t w;
+  int64_t h;
+  float z;
 } turtlebot4_interfaces__msg__BBCoordinates;
 
 // Struct for a sequence of turtlebot4_interfaces__msg__BBCoordinates.

@@ -1,1 +1,1 @@
-cv_bridge:depthai_sdk:rclpy:sensor_msgs:std_msgs
+cv_bridge:depthai_sdk:rclpy:sensor_msgs:std_msgs:turtlebot4_interfaces

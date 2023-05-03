@@ -20,16 +20,32 @@ namespace msg
 namespace builder
 {
 
+class Init_BBCoordinates_z
+{
+public:
+  explicit Init_BBCoordinates_z(::turtlebot4_interfaces::msg::BBCoordinates & msg)
+  : msg_(msg)
+  {}
+  ::turtlebot4_interfaces::msg::BBCoordinates z(::turtlebot4_interfaces::msg::BBCoordinates::_z_type arg)
+  {
+    msg_.z = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::turtlebot4_interfaces::msg::BBCoordinates msg_;
+};
+
 class Init_BBCoordinates_h
 {
 public:
   explicit Init_BBCoordinates_h(::turtlebot4_interfaces::msg::BBCoordinates & msg)
   : msg_(msg)
   {}
-  ::turtlebot4_interfaces::msg::BBCoordinates h(::turtlebot4_interfaces::msg::BBCoordinates::_h_type arg)
+  Init_BBCoordinates_z h(::turtlebot4_interfaces::msg::BBCoordinates::_h_type arg)
   {
     msg_.h = std::move(arg);
-    return std::move(msg_);
+    return Init_BBCoordinates_z(msg_);
   }
 
 private:

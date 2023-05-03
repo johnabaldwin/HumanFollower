@@ -35,7 +35,7 @@ class Driver(Node):
         self.publisher_ = self.create_publisher(Twist, 'cmd_vel', 10)
         # timer_period = 0.5  # seconds
         # self.timer = self.create_timer(timer_period, self.callback)
-        self.location_subscriber_ = self.create_subscription(BBCoordinates, "/humanPredicition", self.callback, 10)
+        self.location_subscriber_ = self.create_subscription(BBCoordinates, "/BBCoordinates", self.callback, 10)
         self.base_cmd = Twist()
 
         # ideal distance from target
@@ -75,13 +75,14 @@ class Driver(Node):
         h = msg.h
         z = msg.z
 
-        x_c, y_c  = (x + self.imgW/2), (y + self.imgH/2) 
-        offset_x = x_c - self.imgW / 2
+        x_c, y_c  = (x + w/2), (y + h/2)
+        x0 = w/2 
+        offset_x = (x_c-x0) - self.imgW / 2
         theta = offset_x / self.imgW
 
         z_error = self.target_distance - z
 
-        angular = -2.5 * theta
+        angular = -2.0 * theta
         linear = self.z_pid.update(z_error)
 
         if(z <= 0.5):

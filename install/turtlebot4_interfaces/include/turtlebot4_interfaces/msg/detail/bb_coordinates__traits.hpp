@@ -58,6 +58,16 @@ inline void to_yaml(
     value_to_yaml(msg.h, out);
     out << "\n";
   }
+
+  // member: z
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "z: ";
+    value_to_yaml(msg.z, out);
+    out << "\n";
+  }
 }  // NOLINT(readability/fn_size)
 
 inline std::string to_yaml(const turtlebot4_interfaces::msg::BBCoordinates & msg)

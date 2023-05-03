@@ -1,0 +1,6 @@
+source;share/KF_4D/hook/pythonpath.ps1
+source;share/KF_4D/hook/pythonpath.dsv
+source;share/KF_4D/hook/pythonpath.sh
+source;share/KF_4D/hook/ament_prefix_path.ps1
+source;share/KF_4D/hook/ament_prefix_path.dsv
+source;share/KF_4D/hook/ament_prefix_path.sh

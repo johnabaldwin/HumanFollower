@@ -17,6 +17,59 @@ import cv2
 from cv_bridge import CvBridge
 import numpy as np
 
+class KF_4D(object):
+    def __init__(self, dt, u_x, u_y, u_w, u_h, std_acc, x_std_meas, y_std_meas, w_std_meas, h_std_meas):
+
+        self.dt = dt
+        #self.u = np.matrix([[u_x],[u_y],[u_w],[u_h]])
+        self.x = np.matrix([[0],[0],[0],[0],[0],[0],[0],[0]]) 
+
+        self.A = np.matrix([[1,0,0,0,self.dt,0,0,0],[0,1,0,0,0,self.dt,0,0],
+                            [0,0,1,0,0,0,self.dt,0],[0,0,0,1,0,0,0,self.dt],
+                            [0,0,0,0,1,0,0,0],[0,0,0,0,0,1,0,0],
+                            [0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,1]])
+        #self.B = np.matrix([[(self.dt**2)/2,0,0,0],[0,(self.dt**2)/2,0,0],
+        #                    [0,0,(self.dt**2)/2,0],[0,0,0,(self.dt**2)/2],
+        #                    [self.dt,0,0,0],[0,self.dt,0,0],
+        #                    [0,0,self.dt,0],[0,0,0,self.dt]])
+        self.H = np.matrix([[1,0,0,0,0,0,0,0],[0,1,0,0,0,0,0,0],
+                            [0,0,1,0,0,0,0,0],[0,0,0,1,0,0,0,0]])
+        self.Q = np.matrix([[(self.dt**4)/4,0,0,0,(self.dt**3)/2,0,0,0],
+                            [0,(self.dt**4)/4,0,0,0,(self.dt**3)/2,0,0],
+                            [0,0,(self.dt**4)/4,0,0,0,(self.dt**3)/2,0],
+                            [0,0,0,(self.dt**4)/4,0,0,0,(self.dt**3)/2],
+                            [(self.dt**3)/2,0,0,0,self.dt**2,0,0,0],
+                            [0,(self.dt**3)/2,0,0,0,self.dt**2,0,0],
+                            [0,0,(self.dt**3)/2,0,0,0,self.dt**2,0],
+                            [0,0,0,(self.dt**3)/2,0,0,0,self.dt**2]])
+
+        self.R = np.matrix([[x_std_meas**2,0,0,0],[0,y_std_meas**2,0,0],
+                            [0,0,w_std_meas**2,0],[0,0,0,h_std_meas]])
+
+        self.P = np.eye(self.A.shape[1])
+
+
+    def predict(self):
+        ## complete this function
+        # Update time state (self.x): x_k =Ax_(k-1) + Bu_(k-1)
+        self.x = np.dot(self.A, self.x)
+        # Calculate error covariance (self.P): P= A*P*A' + Q
+        self.P = np.dot(np.dot(self.A, self.P), self.A.T) + self.Q
+        return self.x[0:4]
+
+    def update(self, z):
+        ## complete this function
+        self.y = z - np.dot(self.H, self.x)
+        # Calculate S = H*P*H'+R
+        self.S = np.dot(self.H, np.dot(self.P, self.H.T)) + self.R
+        # Calculate the Kalman Gain K = P * H'* inv(H*P*H'+R)
+        self.K = np.dot(np.dot(self.P,self.H.T), np.linalg.inv(self.S))
+        # Update self.x
+        self.x = self.x + np.dot(self.K, self.y)
+        # Update error covariance matrix self.P
+        self.P = self.P - np.dot(np.dot(self.K, self.H), self.P)
+        return self.x[0:4]
+
 class HumanLocator(Node):
 
     def __init__(self):
@@ -25,6 +78,7 @@ class HumanLocator(Node):
         self.timer_period = 1/12  # frequency to call timer_callback
         self.camera_fps = self.timer_period**(-1) # set camera fps to the number of callbacks per second
 
+        self.filter = KF_4D(dt=0.15, u_x=1, u_y=1, u_w=1, u_h=1, std_acc=1, x_std_meas=0.1, y_std_meas=0.1, w_std_meas=0.1, h_std_meas=0.1)
 
         self.LocationPublisher_ = self.create_publisher(Point, "/humanLocation", 10)
         self.BBPublisher_ = self.create_publisher(BBCoordinates, "/BBCoordinates", 10)
@@ -135,13 +189,42 @@ class HumanLocator(Node):
                 bbMsg.w = x2 - x1
                 bbMsg.h = y2 - y1
                 bbMsg.z = z
+
+                (x,y,w,h) = self.filter.predict()
+                coord = BBCoordinates() 
+                
+                updCoord = np.matrix([[x1],[y1],[x2 - x1],[y2 - y1]])
+                (x1,y1,w1,h1) = self.filter.update(updCoord)     
+                coord.x = int(x1)
+                coord.y = int(y1)
+                coord.w = int(w1)
+                coord.h= int(h1)
+                coord.z = z  
+
+                bbMsg.x = int(x1)
+                bbMsg.y = int(y1)
+                bbMsg.w = int(w1)
+                bbMsg.h = int(h1) 
+                bbMsg.z = z  
+
+
+
+                #cv2.rectangle(rectifiedRight, (int(x), int(y)), (int(x+w), int(y+h)), (255,0,0), 2)
+                #cv2.putText(rectifiedRight, "Predicted Position", (int(x + w), int(y)), 0, 0.5, (255, 0, 0), 2)
+                #cv2.rectangle(rectifiedRight, (int(x1), int(y1)), (int(x1 + w1), int(y1 + h1)), (0, 0, 255), 2)
+                #cv2.putText(rectifiedRight, "Estimated Position", (int(x1 + w1), int(y1 + h1)), 0, 0.5, (0, 0, 255), 2)
+
                 print(pointMsg.x)
                 print(bbMsg.x)
         if (not pointMsg.x == 0.0):
             self.LocationPublisher_.publish(pointMsg)
             self.BBPublisher_.publish(bbMsg)
         #cv2.rectangle(rectifiedRight, (x1, y1), (x2, y2), (255,0,0), cv2.FONT_HERSHEY_SIMPLEX)
+        
+
+
         #cv2.imshow("rectified right", rectifiedRight)
+        #cv2.waitKey(0)
 
 
 

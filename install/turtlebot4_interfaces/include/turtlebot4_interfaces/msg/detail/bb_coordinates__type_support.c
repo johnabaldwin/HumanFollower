@@ -31,10 +31,10 @@ void BBCoordinates__rosidl_typesupport_introspection_c__BBCoordinates_fini_funct
   turtlebot4_interfaces__msg__BBCoordinates__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember BBCoordinates__rosidl_typesupport_introspection_c__BBCoordinates_message_member_array[4] = {
+static rosidl_typesupport_introspection_c__MessageMember BBCoordinates__rosidl_typesupport_introspection_c__BBCoordinates_message_member_array[5] = {
   {
     "x",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
@@ -49,7 +49,7 @@ static rosidl_typesupport_introspection_c__MessageMember BBCoordinates__rosidl_t
   },
   {
     "y",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
@@ -64,7 +64,7 @@ static rosidl_typesupport_introspection_c__MessageMember BBCoordinates__rosidl_t
   },
   {
     "w",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
@@ -79,7 +79,7 @@ static rosidl_typesupport_introspection_c__MessageMember BBCoordinates__rosidl_t
   },
   {
     "h",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
@@ -91,13 +91,28 @@ static rosidl_typesupport_introspection_c__MessageMember BBCoordinates__rosidl_t
     NULL,  // get_const(index) function pointer
     NULL,  // get(index) function pointer
     NULL  // resize(index) function pointer
+  },
+  {
+    "z",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(turtlebot4_interfaces__msg__BBCoordinates, z),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers BBCoordinates__rosidl_typesupport_introspection_c__BBCoordinates_message_members = {
   "turtlebot4_interfaces__msg",  // message namespace
   "BBCoordinates",  // message name
-  4,  // number of fields
+  5,  // number of fields
   sizeof(turtlebot4_interfaces__msg__BBCoordinates),
   BBCoordinates__rosidl_typesupport_introspection_c__BBCoordinates_message_member_array,  // message members
   BBCoordinates__rosidl_typesupport_introspection_c__BBCoordinates_init_function,  // function to initialize message memory (memory has to be allocated)

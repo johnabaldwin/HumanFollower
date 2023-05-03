@@ -37,10 +37,10 @@ void BBCoordinates_fini_function(void * message_memory)
   typed_message->~BBCoordinates();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember BBCoordinates_message_member_array[4] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember BBCoordinates_message_member_array[5] = {
   {
     "x",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT64,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is array
@@ -55,7 +55,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember BBCoordinates
   },
   {
     "y",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT64,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is array
@@ -70,7 +70,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember BBCoordinates
   },
   {
     "w",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT64,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is array
@@ -85,7 +85,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember BBCoordinates
   },
   {
     "h",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT64,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is array
@@ -97,13 +97,28 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember BBCoordinates
     nullptr,  // get_const(index) function pointer
     nullptr,  // get(index) function pointer
     nullptr  // resize(index) function pointer
+  },
+  {
+    "z",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(turtlebot4_interfaces::msg::BBCoordinates, z),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr  // resize(index) function pointer
   }
 };
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers BBCoordinates_message_members = {
   "turtlebot4_interfaces::msg",  // message namespace
   "BBCoordinates",  // message name
-  4,  // number of fields
+  5,  // number of fields
   sizeof(turtlebot4_interfaces::msg::BBCoordinates),
   BBCoordinates_message_member_array,  // message members
   BBCoordinates_init_function,  // function to initialize message memory (memory has to be allocated)

@@ -6,13 +6,15 @@
 module turtlebot4_interfaces {
   module msg {
     struct BBCoordinates {
-      float x;
+      int64 x;
 
-      float y;
+      int64 y;
 
-      float w;
+      int64 w;
 
-      float h;
+      int64 h;
+
+      float z;
     };
   };
 };

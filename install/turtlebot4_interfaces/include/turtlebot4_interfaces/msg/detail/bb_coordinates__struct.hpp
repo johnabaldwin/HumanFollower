@@ -37,10 +37,11 @@ struct BBCoordinates_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->x = 0.0f;
-      this->y = 0.0f;
-      this->w = 0.0f;
-      this->h = 0.0f;
+      this->x = 0ll;
+      this->y = 0ll;
+      this->w = 0ll;
+      this->h = 0ll;
+      this->z = 0.0f;
     }
   }
 
@@ -50,50 +51,60 @@ struct BBCoordinates_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->x = 0.0f;
-      this->y = 0.0f;
-      this->w = 0.0f;
-      this->h = 0.0f;
+      this->x = 0ll;
+      this->y = 0ll;
+      this->w = 0ll;
+      this->h = 0ll;
+      this->z = 0.0f;
     }
   }
 
   // field types and members
   using _x_type =
-    float;
+    int64_t;
   _x_type x;
   using _y_type =
-    float;
+    int64_t;
   _y_type y;
   using _w_type =
-    float;
+    int64_t;
   _w_type w;
   using _h_type =
-    float;
+    int64_t;
   _h_type h;
+  using _z_type =
+    float;
+  _z_type z;
 
   // setters for named parameter idiom
   Type & set__x(
-    const float & _arg)
+    const int64_t & _arg)
   {
     this->x = _arg;
     return *this;
   }
   Type & set__y(
-    const float & _arg)
+    const int64_t & _arg)
   {
     this->y = _arg;
     return *this;
   }
   Type & set__w(
-    const float & _arg)
+    const int64_t & _arg)
   {
     this->w = _arg;
     return *this;
   }
   Type & set__h(
-    const float & _arg)
+    const int64_t & _arg)
   {
     this->h = _arg;
+    return *this;
+  }
+  Type & set__z(
+    const float & _arg)
+  {
+    this->z = _arg;
     return *this;
   }
 
@@ -149,6 +160,9 @@ struct BBCoordinates_
       return false;
     }
     if (this->h != other.h) {
+      return false;
+    }
+    if (this->z != other.z) {
       return false;
     }
     return true;

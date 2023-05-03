@@ -19,6 +19,7 @@ turtlebot4_interfaces__msg__BBCoordinates__init(turtlebot4_interfaces__msg__BBCo
   // y
   // w
   // h
+  // z
   return true;
 }
 
@@ -32,6 +33,7 @@ turtlebot4_interfaces__msg__BBCoordinates__fini(turtlebot4_interfaces__msg__BBCo
   // y
   // w
   // h
+  // z
 }
 
 bool
@@ -56,6 +58,10 @@ turtlebot4_interfaces__msg__BBCoordinates__are_equal(const turtlebot4_interfaces
   if (lhs->h != rhs->h) {
     return false;
   }
+  // z
+  if (lhs->z != rhs->z) {
+    return false;
+  }
   return true;
 }
 
@@ -75,6 +81,8 @@ turtlebot4_interfaces__msg__BBCoordinates__copy(
   output->w = input->w;
   // h
   output->h = input->h;
+  // z
+  output->z = input->z;
   return true;
 }
 
